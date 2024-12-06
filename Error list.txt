@@ -1,0 +1,11 @@
+Danh sách các lỗi của chương trình auto topup tài khoản:
+
+Lỗi 1: 
+
+Lưu ý:
+-Các lỗi 2, 3, 4, 5, 6, 7, 8, 9, 10 đều có thể sẽ xảy ra khi trang web bị lag.
+
+Cách xử lý tạm thời các lỗi trên là dừng chương trình, tắt tab Chrome cũ và chạy lại chương trình.
+Trong trường hợp chạy lại mà vẫn lỗi nghiêm trọng thì hãy xóa folder profile và tiến hành đăng nhập lại.
+
+p/s: Chương trình được làm bởi PhucHuwuDev.
