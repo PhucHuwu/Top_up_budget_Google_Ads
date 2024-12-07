@@ -53,7 +53,7 @@ driver.maximize_window()
 
 driver.get("https://ads.google.com/aw/overview")
 
-account_id = input("Vui lòng nhập id: ")
+account_id = "974-884-2844"  # input("Vui lòng nhập id: ")
 
 if (account_id):
     while True:
@@ -61,6 +61,8 @@ if (account_id):
         if row != None:
             id = row[2]
             request = row[5]
+            top_up = row[7]
+            money_left = row[13]
 
             driver.get("https://ads.google.com/aw/overview")
 
@@ -100,3 +102,5 @@ if (account_id):
             #     print(f"Lỗi 4")
             #     print()
             #     continue
+            
+            Done()
