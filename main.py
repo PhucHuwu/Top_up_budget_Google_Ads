@@ -96,13 +96,13 @@ if (account_id):
                 time.sleep(3)
 
                 try:
-                    element = driver.find_element(By.XPATH, '//a[@role="menuitemradio" and contains(@class, "customer-with-status")]')
-                    time.sleep(3)
-                    driver.execute_script("arguments[0].click();", element)
-                except Exception:
-                    print("Lỗi 4")
-                    print()
-                    continue
+                    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'customer-title')]")))
+                    link_element = driver.find_element(By.XPATH, "//a[contains(@class, 'customer-title')]")
+                    href = link_element.get_attribute("href")
+                    driver.get(href)
+
+                except Exception as e:
+                    print(f"Lỗi: {e}")
                 time.sleep(5)
 
                 try:
