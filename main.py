@@ -36,6 +36,7 @@ def Done():
                 update_range = f"Sheet1!I{index}"
                 update_google_sheet(spreadsheet_id, update_range, "Đã Nạp")
                 return
+
             else:
                 continue
 
@@ -92,15 +93,63 @@ if (account_id):
             ActionChains(driver).send_keys(f"{id}").perform()
             time.sleep(3)
 
-            # try:
-            #     element = WebDriverWait(driver, 30).until(
-            #         EC.presence_of_element_located(
-            #             (By.XPATH, "//a[contains(@class, 'customer-title') and div//div[contains(@class, 'customer-name') and text()='" + name_customer + "']]"))
-            #     )
-            #     driver.execute_script("arguments[0].click();", element)
-            # except Exception:
-            #     print(f"Lỗi 4")
-            #     print()
-            #     continue
+            try:
+                element = driver.find_element(By.XPATH, '//a[@role="menuitemradio" and contains(@class, "customer-with-status")]')
+                time.sleep(3)
+                driver.execute_script("arguments[0].click();", element)
+            except Exception:
+                print("Lỗi 4")
+                print()
+                continue
+            time.sleep(5)
+
+            try:
+                click.auto_click(driver, config.pay_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 5")
+                print()
+                continue
+
+            try:
+                click.auto_click(driver, config.account_budget_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 6")
+                print()
+                continue
+            time.sleep(10)
+
+            try:
+                element = driver.find_element(By.XPATH, "//material-button//span[contains(text(), 'Chỉnh sửa')]")
+                driver.execute_script("arguments[0].click();", element)
+            except Exception:
+                print(f"Lỗi 7")
+                print()
+                continue
+            time.sleep(5)
+
+            try:
+                WebDriverWait(driver, 30).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "input-area")))
+                input_areas = driver.find_elements(By.CLASS_NAME, "input-area")
+                if len(input_areas) > 1:
+                    driver.execute_script("arguments[0].value = '';", input_areas[1])
+                    input_areas[1].send_keys(f'{top_up}')
+                else:
+                    time.sleep(5)
+                    driver.execute_script("arguments[0].value = '';", input_areas[1])
+                    input_areas[1].send_keys(f'{top_up}')
+            except Exception:
+                print(f"Lỗi 8")
+                continue
+
+            try:
+                WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "material-button.btn.btn-yes")))
+                save_button = driver.find_element(By.CSS_SELECTOR, "material-button.btn.btn-yes")
+                save_button.click()
+            except Exception:
+                print(f"Lỗi 9")
+                print()
+                continue
             
             Done()
+            
+            time.sleep(15)
