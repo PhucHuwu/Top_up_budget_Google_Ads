@@ -95,15 +95,17 @@ if (account_id):
                 ActionChains(driver).send_keys(f"{id}").perform()
                 time.sleep(3)
 
+                # -----------------------------------------------------------------------------------------------------
                 try:
-                    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'customer-title')]")))
-                    link_element = driver.find_element(By.XPATH, "//a[contains(@class, 'customer-title')]")
-                    href = link_element.get_attribute("href")
-                    driver.get(href)
-
-                except Exception as e:
-                    print(f"Lỗi: {e}")
+                    element = driver.find_element(By.XPATH, '//a[@role="menuitemradio" and contains(@class, "customer-with-status")]')
+                    time.sleep(3)
+                    driver.execute_script("arguments[0].click();", element)
+                except Exception:
+                    print("Lỗi 4")
+                    print()
+                    continue
                 time.sleep(5)
+                # -----------------------------------------------------------------------------------------------------
 
                 try:
                     click.auto_click(driver, config.pay_button_xpath, 30)
@@ -151,8 +153,8 @@ if (account_id):
                     print(f"Lỗi 9")
                     print()
                     continue
-                
+
                 Done()
                 print(f"Đã nạp xong cho tài khoản {customer_id}: {id}")
-                
+
                 time.sleep(10)
