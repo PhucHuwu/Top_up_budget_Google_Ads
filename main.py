@@ -71,7 +71,7 @@ if (account_id):
             driver.get("https://ads.google.com/aw/overview")
 
             try:
-                auto_click(driver, "//span[text()='" + account_id + "']", 30)
+                auto_click(driver, f"//span[text()='{account_id}']", 30)
             except Exception:
                 print(f"Lỗi 1")
                 print()
