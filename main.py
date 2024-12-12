@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import time
-import pyautogui
 import os
 from sheets_helper import extract_spreadsheet_id, read_google_sheet, update_google_sheet
 from click import auto_click
@@ -43,7 +42,15 @@ options.user_data_dir = profile_directory
 
 driver = uc.Chrome(options=options)
 
-driver.maximize_window()
+screen_width = driver.execute_script("return window.screen.availWidth;")
+screen_height = driver.execute_script("return window.screen.availHeight;")
+window_width = screen_width // 2
+window_height = screen_height // 2
+position_x = screen_width - window_width
+position_y = 0
+
+driver.set_window_size(window_width, window_height)
+driver.set_window_position(position_x, position_y)
 
 driver.get("https://ads.google.com/aw/overview")
 
