@@ -1,11 +1,17 @@
 Danh sách các lỗi của chương trình auto topup tài khoản:
 
-Lỗi 1: 
+Lỗi 1: Lỗi này gặp khi tài khoản chứa quá nhiều MCC.
+Lỗi 2: Lỗi này gặp khi nút mũi tên ở chỗ tìm kiếm bị che khuất.
+Lỗi 3: Lỗi này gặp khi icon kính lúp bị che khuất.
+Lỗi 4: Lỗi này gặp khi không thể tìm kiếm thấy id khách hàng.
+Lỗi 5: Lỗi này gặp khi không thể bấm vào mục thanh toán.
+Lỗi 6: Lỗi này gặp khi không thể bấm vào mục ngân sách tài khoản.
+Lỗi 7: Lỗi này gặp khi không thể chỉnh sửa ngân sách.
+Lỗi 8: Lỗi này gặp khi không thể nhập tiền top up mới.
+Lỗi 9: Lỗi này gặp khi không thể lưu.
 
 Lưu ý:
--Các lỗi 2, 3, 4, 5, 6, 7, 8, 9, 10 đều có thể sẽ xảy ra khi trang web bị lag.
-
-Cách xử lý tạm thời các lỗi trên là dừng chương trình, tắt tab Chrome cũ và chạy lại chương trình.
-Trong trường hợp chạy lại mà vẫn lỗi nghiêm trọng thì hãy xóa folder profile và tiến hành đăng nhập lại.
+-Các lỗi 1, 2, 3, 4, 5, 6, 7, 8, 9 đều có thể sẽ xảy ra khi trang web bị lag.
+-Khi chương trình lỗi sẽ tiến hành NẠP lại, không cập nhập trạng thái "Đã Nạp".
 
 p/s: Chương trình được làm bởi PhucHuwuDev.
