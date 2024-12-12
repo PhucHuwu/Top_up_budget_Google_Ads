@@ -90,7 +90,6 @@ if (account_id):
             ActionChains(driver).send_keys(f"{id}").perform()
             time.sleep(3)
 
-            # ---------------------------------------------------------------------------------------------------------
             try:
                 customer_element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, f"//div[strong[text()='{id}']]")))
                 element = customer_element.find_element(By.XPATH, ".//preceding-sibling::a")
@@ -100,7 +99,6 @@ if (account_id):
                 print()
                 continue
             time.sleep(5)
-            # ---------------------------------------------------------------------------------------------------------
 
             try:
                 click.auto_click(driver, config.pay_button_xpath, 30)
