@@ -48,7 +48,7 @@ driver.maximize_window()
 
 driver.get("https://ads.google.com/aw/overview")
 
-account_id = "974-884-2844"  # input("Vui lòng nhập id: ")
+account_id = input("Vui lòng nhập id: ") #"974-884-2844"
 
 if (account_id):
     while True:
