@@ -44,8 +44,8 @@ driver = uc.Chrome(options=options)
 
 screen_width = driver.execute_script("return window.screen.availWidth;")
 screen_height = driver.execute_script("return window.screen.availHeight;")
-window_width = screen_width // 2
-window_height = screen_height // 2
+window_width = screen_width // 3
+window_height = screen_height // 3
 position_x = screen_width - window_width
 position_y = 0
 
