@@ -21,24 +21,18 @@ def Row():
     data = read_google_sheet(spreadsheet_id, range_name)
 
     for row in data[1:]:
-        if row[8].strip() == "":
-            if row[5] == "NẠP":
-                return row
+        if row[8].strip() == "" and row[5] == "NẠP" and row[3] <= row[13]:
+            return row
 
 
 def Done():
     data = read_google_sheet(spreadsheet_id, range_name)
 
     for index, row in enumerate(data[1:], start=2):
-        if row[8].strip() == "":
-            if row[5] == "NẠP":
-                update_range = f"Sheet1!I{index}"
-                update_google_sheet(spreadsheet_id, update_range, "Đã Nạp")
-                return
-            else:
-                update_range = f"Sheet1!I{index}"
-                update_google_sheet(spreadsheet_id, update_range, "Đã Rút")
-                return
+        if row[8].strip() == "" and row[5] == "NẠP" and row[3] <= row[13]:
+            update_range = f"Sheet1!I{index}"
+            update_google_sheet(spreadsheet_id, update_range, "Đã Nạp")
+            return
 
 
 options = uc.ChromeOptions()
@@ -66,95 +60,96 @@ if (account_id):
             top_up = row[7]
             money_request = row[3]
             money_left = row[13]
-            if request == "NẠP" and money_request <= money_left:
-                driver.get("https://ads.google.com/aw/overview")
 
-                try:
-                    click.auto_click(driver, "//span[text()='" + account_id + "']", 30)
-                except Exception:
-                    print(f"Lỗi 1")
-                    print()
-                    continue
-                time.sleep(5)
+            # ---------------------------------------------------------------------------------------------------------
+            driver.get("https://ads.google.com/aw/overview")
 
-                try:
-                    click.auto_click(driver, config.arrow_drop_down_button_xpath, 30)
-                except Exception:
-                    print(f"Lỗi 2")
-                    print()
-                    continue
-                time.sleep(3)
+            try:
+                click.auto_click(driver, "//span[text()='" + account_id + "']", 30)
+            except Exception:
+                print(f"Lỗi 1")
+                print()
+                continue
+            time.sleep(5)
 
-                try:
-                    click.auto_click(driver, config.search_button_xpath, 30)
-                except Exception:
-                    print(f"Lỗi 3")
-                    print()
-                    continue
+            try:
+                click.auto_click(driver, config.arrow_drop_down_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 2")
+                print()
+                continue
+            time.sleep(3)
 
-                ActionChains(driver).send_keys(f"{id}").perform()
-                time.sleep(3)
+            try:
+                click.auto_click(driver, config.search_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 3")
+                print()
+                continue
 
-                # -----------------------------------------------------------------------------------------------------
-                try:
-                    element = driver.find_element(By.XPATH, '//a[@role="menuitemradio" and contains(@class, "customer-with-status")]')
-                    time.sleep(3)
-                    driver.execute_script("arguments[0].click();", element)
-                except Exception:
-                    print("Lỗi 4")
-                    print()
-                    continue
-                time.sleep(5)
-                # -----------------------------------------------------------------------------------------------------
+            ActionChains(driver).send_keys(f"{id}").perform()
+            time.sleep(3)
 
-                try:
-                    click.auto_click(driver, config.pay_button_xpath, 30)
-                except Exception:
-                    print(f"Lỗi 5")
-                    print()
-                    continue
+            # ---------------------------------------------------------------------------------------------------------
+            try:
+                customer_element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, f"//div[strong[text()='{id}']]")))
+                element = customer_element.find_element(By.XPATH, ".//preceding-sibling::a")
+                driver.execute_script("arguments[0].click();", element)
+            except Exception:
+                print("Lỗi 4")
+                print()
+                continue
+            time.sleep(5)
+            # ---------------------------------------------------------------------------------------------------------
 
-                try:
-                    click.auto_click(driver, config.account_budget_button_xpath, 30)
-                except Exception:
-                    print(f"Lỗi 6")
-                    print()
-                    continue
-                time.sleep(10)
+            try:
+                click.auto_click(driver, config.pay_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 5")
+                print()
+                continue
 
-                try:
-                    element = driver.find_element(By.XPATH, "//material-button//span[contains(text(), 'Chỉnh sửa')]")
-                    driver.execute_script("arguments[0].click();", element)
-                except Exception:
-                    print(f"Lỗi 7")
-                    print()
-                    continue
-                time.sleep(5)
+            try:
+                click.auto_click(driver, config.account_budget_button_xpath, 30)
+            except Exception:
+                print(f"Lỗi 6")
+                print()
+                continue
+            time.sleep(10)
 
-                try:
-                    WebDriverWait(driver, 30).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "input-area")))
-                    input_areas = driver.find_elements(By.CLASS_NAME, "input-area")
-                    if len(input_areas) > 1:
-                        driver.execute_script("arguments[0].value = '';", input_areas[1])
-                        input_areas[1].send_keys(f'{top_up}')
-                    else:
-                        time.sleep(5)
-                        driver.execute_script("arguments[0].value = '';", input_areas[1])
-                        input_areas[1].send_keys(f'{top_up}')
-                except Exception:
-                    print(f"Lỗi 8")
-                    continue
+            try:
+                element = driver.find_element(By.XPATH, "//material-button//span[contains(text(), 'Chỉnh sửa')]")
+                driver.execute_script("arguments[0].click();", element)
+            except Exception:
+                print(f"Lỗi 7")
+                print()
+                continue
+            time.sleep(5)
 
-                try:
-                    WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "material-button.btn.btn-yes")))
-                    save_button = driver.find_element(By.CSS_SELECTOR, "material-button.btn.btn-yes")
-                    save_button.click()
-                except Exception:
-                    print(f"Lỗi 9")
-                    print()
-                    continue
+            try:
+                WebDriverWait(driver, 30).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "input-area")))
+                input_areas = driver.find_elements(By.CLASS_NAME, "input-area")
+                if len(input_areas) > 1:
+                    driver.execute_script("arguments[0].value = '';", input_areas[1])
+                    input_areas[1].send_keys(f'{top_up}')
+                else:
+                    time.sleep(5)
+                    driver.execute_script("arguments[0].value = '';", input_areas[1])
+                    input_areas[1].send_keys(f'{top_up}')
+            except Exception:
+                print(f"Lỗi 8")
+                continue
 
-                Done()
-                print(f"Đã nạp xong cho tài khoản {customer_id}: {id}")
+            try:
+                WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "material-button.btn.btn-yes")))
+                save_button = driver.find_element(By.CSS_SELECTOR, "material-button.btn.btn-yes")
+                save_button.click()
+            except Exception:
+                print(f"Lỗi 9")
+                print()
+                continue
 
-                time.sleep(10)
+            Done()
+            print(f"Đã nạp xong {money_request}$ cho tài khoản {customer_id}: {id}")
+
+            time.sleep(10)
