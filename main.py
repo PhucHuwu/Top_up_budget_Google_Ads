@@ -4,16 +4,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import pyautogui
 import os
 from sheets_helper import extract_spreadsheet_id, read_google_sheet, update_google_sheet
-import click
+from click import auto_click
 import config
 
 
 spreadsheet_url = "https://docs.google.com/spreadsheets/d/1cHm4-a_2DtZlOHwt9nfPy1e1wCAORwGplJy8tkIqMWw/edit?usp=sharing"
-
 spreadsheet_id = extract_spreadsheet_id(spreadsheet_url)
-
 range_name = "Sheet1!A1:Z"
 
 
@@ -44,11 +43,19 @@ options.user_data_dir = profile_directory
 
 driver = uc.Chrome(options=options)
 
-driver.maximize_window()
+screen_width = pyautogui.size().width
+screen_height = pyautogui.size().height
+window_width = screen_width // 3
+window_height = screen_height // 3
+position_x = screen_width - window_width
+position_y = 0
+
+driver.set_window_size(window_width, window_height)
+driver.set_window_position(position_x, position_y)
 
 driver.get("https://ads.google.com/aw/overview")
 
-account_id = input("Vui lòng nhập id: ") #"974-884-2844"
+account_id = input("Vui lòng nhập id: ")  # "974-884-2844"
 
 if (account_id):
     while True:
@@ -65,7 +72,7 @@ if (account_id):
             driver.get("https://ads.google.com/aw/overview")
 
             try:
-                click.auto_click(driver, "//span[text()='" + account_id + "']", 30)
+                auto_click(driver, "//span[text()='" + account_id + "']", 30)
             except Exception:
                 print(f"Lỗi 1")
                 print()
@@ -73,7 +80,7 @@ if (account_id):
             time.sleep(5)
 
             try:
-                click.auto_click(driver, config.arrow_drop_down_button_xpath, 30)
+                auto_click(driver, config.arrow_drop_down_button_xpath, 30)
             except Exception:
                 print(f"Lỗi 2")
                 print()
@@ -81,7 +88,7 @@ if (account_id):
             time.sleep(3)
 
             try:
-                click.auto_click(driver, config.search_button_xpath, 30)
+                auto_click(driver, config.search_button_xpath, 30)
             except Exception:
                 print(f"Lỗi 3")
                 print()
@@ -101,14 +108,14 @@ if (account_id):
             time.sleep(5)
 
             try:
-                click.auto_click(driver, config.pay_button_xpath, 30)
+                auto_click(driver, config.pay_button_xpath, 30)
             except Exception:
                 print(f"Lỗi 5")
                 print()
                 continue
 
             try:
-                click.auto_click(driver, config.account_budget_button_xpath, 30)
+                auto_click(driver, config.account_budget_button_xpath, 30)
             except Exception:
                 print(f"Lỗi 6")
                 print()
