@@ -42,20 +42,20 @@ options.user_data_dir = profile_directory
 
 driver = uc.Chrome(options=options)
 
-# screen_width = driver.execute_script("return window.screen.availWidth;")
-# screen_height = driver.execute_script("return window.screen.availHeight;")
-# window_width = screen_width // 3
-# window_height = screen_height // 3
-# position_x = screen_width - window_width
-# position_y = 0
+screen_width = driver.execute_script("return window.screen.availWidth;")
+screen_height = driver.execute_script("return window.screen.availHeight;")
+window_width = screen_width // 3
+window_height = screen_height // 3
+position_x = screen_width - window_width
+position_y = 0
 
-# driver.set_window_size(window_width, window_height)
-# driver.set_window_position(position_x, position_y)
-driver.maximize_window()
+driver.set_window_size(window_width, window_height)
+driver.set_window_position(position_x, position_y)
+# driver.maximize_window()
 
 driver.get("https://ads.google.com/aw/overview")
 
-account_id = "974-884-2844"  # input("Vui lòng nhập id: ")  # "974-884-2844"
+account_id = input("Vui lòng nhập id: ")  # "974-884-2844"
 
 if (account_id):
     while True:
